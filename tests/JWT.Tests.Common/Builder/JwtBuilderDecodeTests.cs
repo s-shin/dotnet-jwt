@@ -544,6 +544,7 @@ namespace JWT.Tests.Builder
         }
 #endif
 
+        // TODO: This test has never been run yet.
         [TestMethod]
         public void Decode_Should_Work_After_DecodeHeader_Was_Called()
         {

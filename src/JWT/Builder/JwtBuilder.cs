@@ -302,6 +302,7 @@ namespace JWT.Builder
         /// <param name="token">The JWT</param>
         public string DecodeHeader(string token)
         {
+            // TODO: Replacing this with EnsureCanDecodeHeader might be the intended implementation.
             EnsureCanDecode();
 
             return _decoder.DecodeHeader(token);
