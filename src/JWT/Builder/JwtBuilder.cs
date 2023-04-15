@@ -337,6 +337,13 @@ namespace JWT.Builder
             return _decoder.DecodeToObject<T>(token, _secrets, _valParams.ValidateSignature);
         }
 
+        /// <summary>
+        /// Since no validator is required for decoding only headers,
+        /// it is not initialized in the internal initialization process in DecodeHeader.
+        /// Therefore, we can determine whether this builder is for headers or not by checking _validator.
+        /// </summary>
+        private bool IsInitializedForDecodingOnlyHeaders => _validator is null;
+
         private void TryCreateEncoder()
         {
             if (_algorithm is null && _algFactory is null)
@@ -414,6 +421,9 @@ namespace JWT.Builder
 
         private void EnsureCanDecode()
         {
+            if (IsInitializedForDecodingOnlyHeaders)
+                _decoder = null;
+
             if (_decoder is null)
                 TryCreateDecoder();
 

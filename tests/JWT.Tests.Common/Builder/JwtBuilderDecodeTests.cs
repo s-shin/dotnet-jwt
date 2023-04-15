@@ -543,5 +543,20 @@ namespace JWT.Tests.Builder
             actual.Data.Should().BeEquivalentTo(expected);
         }
 #endif
+
+        [TestMethod]
+        public void Decode_Should_Work_After_DecodeHeader_Was_Called()
+        {
+            var builder = JwtBuilder.Create()
+                                    .WithAlgorithm(TestData.RS256Algorithm);
+
+            var header = builder.DecodeHeader(TestData.TokenByAsymmetricAlgorithm);
+            header.Should()
+                  .NotBeNullOrEmpty("because decoding header should be possible without validator or algorithm");
+
+            var token = builder.Decode(TestData.TokenByAsymmetricAlgorithm);
+            token.Should()
+                 .NotBeNullOrEmpty("because the decoded token contains values and they should have been decoded");
+        }
     }
 }
